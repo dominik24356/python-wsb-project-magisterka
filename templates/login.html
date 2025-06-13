@@ -1,7 +1,29 @@
 {% extends "base.html" %}
 
-{% block title %}Tytuł{% endblock %}
+{% block title %}Logowanie{% endblock %}
 
 {% block content %}
-    <h2>Tu będzie wykres / mapa / logowanie</h2>
+    <section style="max-width: 400px; margin: 0 auto; background: #fff; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+        <h2 style="text-align: center; margin-bottom: 1.5rem;">🔐 Logowanie do systemu</h2>
+
+        <form method="POST">
+            <div style="margin-bottom: 1rem;">
+                <label for="username"><strong>Nazwa użytkownika:</strong></label><br>
+                <input type="text" id="username" name="username" required style="width: 100%; padding: 0.5rem; border: 1px solid #ccc; border-radius: 6px;">
+            </div>
+
+            <div style="margin-bottom: 1.5rem;">
+                <label for="password"><strong>Hasło:</strong></label><br>
+                <input type="password" id="password" name="password" required style="width: 100%; padding: 0.5rem; border: 1px solid #ccc; border-radius: 6px;">
+            </div>
+
+            <button type="submit" style="width: 100%; padding: 0.6rem; background-color: #007BFF; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold;">
+                🔓 Zaloguj się
+            </button>
+        </form>
+
+        {% if blad %}
+            <p style="color: red; margin-top: 1rem; text-align: center;">{{ blad }}</p>
+        {% endif %}
+    </section>
 {% endblock %}

@@ -2,17 +2,75 @@
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <title>{% block title %}Aplikacja GUS{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        header {
+            background: #2c2c2c;
+            color: white;
+            padding: 1rem 2rem;
+            text-align: center;
+            font-size: 1.5rem;
+        }
+
+        nav {
+            background-color: #f8f9fa;
+            padding: 0.75rem 1rem;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        nav a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        nav a:hover {
+            color: #007BFF;
+            text-decoration: underline;
+        }
+
+        main {
+            padding: 2rem;
+            background-color: #ffffff;
+            border-radius: 10px;
+            margin-top: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+    </style>
 </head>
 <body>
     <nav>
         <a href="/">🏠 Strona główna</a>
-        <a href="/ranking">📋 Ranking</a>
-        <a href="/trend">📉 Trend województwa</a>
-        <a href="/login">🔐 Login</a>        
+        {% if session.get('user') %}
+            <a href="/ranking">📋 Ranking</a>
+            <a href="/trend">📉 Trend województwa</a>
+            <a href="/logout">🚪 Wyloguj ({{ session['user'] }})</a>
+        {% else %}
+            <a href="/login">🔐 Zaloguj się</a>
+        {% endif %}
     </nav>
-    <hr>
-    {% block content %}{% endblock %}
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const tabela = document.querySelector("table");
+        if (tabela) {
+            tabela.setAttribute("id", "rankingTable");
+            new DataTable('#rankingTable');
+        }
+    });
+    </script>
 </body>
 </html>

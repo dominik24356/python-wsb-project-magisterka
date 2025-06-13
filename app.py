@@ -1,5 +1,5 @@
 # 📦 Importy bibliotek
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for, session
 import requests
 import pandas as pd
 import matplotlib
@@ -7,9 +7,14 @@ matplotlib.use('Agg')  # 🔒 Ustawienie backendu bez GUI – potrzebne przy Fla
 import matplotlib.pyplot as plt
 import io
 import base64
+from functools import wraps
+from werkzeug.security import check_password_hash
+import sqlite3
+
 
 # 🔧 Inicjalizacja aplikacji Flask
 app = Flask(__name__)
+app.secret_key = "tajny_klucz"
 
 # 📌 Stałe globalne
 VARIABLE_ID = 633692  # ID zmiennej: średnia cena 1m² mieszkań
@@ -129,6 +134,23 @@ def generuj_wykres_liniowy(df, wojewodztwo):
     plt.close()
     return base64.b64encode(obrazek.getvalue()).decode("utf-8")
 
+def sprawdz_uzytkownika(username, password):
+    conn = sqlite3.connect("users.db")
+    c = conn.cursor()
+    c.execute("SELECT password FROM users WHERE username = ?", (username,))
+    row = c.fetchone()
+    conn.close()
+    if row and check_password_hash(row[0], password):
+        return True
+    return False
+
+def login_required(f):
+    @wraps(f)
+    def wrapper(*args, **kwargs):
+        if "user" not in session:
+            return redirect(url_for("login"))
+        return f(*args, **kwargs)
+    return wrapper
 
 # 📍 Inicjalizacja mapy województw po zdefiniowaniu funkcji
 MAPA_WOJ = pobierz_wojewodztwa()
@@ -145,6 +167,7 @@ def home():
 
 # 📋 Ranking województw wg cen
 @app.route('/ranking', methods=["GET", "POST"])
+@login_required
 def ranking():
     wybrany_rok = request.form.get("rok", "2023")
     df = pobierz_dane_wojewodztwa(wybrany_rok)
@@ -153,6 +176,7 @@ def ranking():
 
 # 📉 Trend zmian cen 1m² w danym województwie
 @app.route("/trend", methods=["GET", "POST"])
+@login_required
 def trend():
     wykres = None
     blad = None
@@ -175,9 +199,24 @@ def trend():
 
 
 # 🔐 Login – placeholder
-@app.route('/login')
+@app.route('/login', methods=["GET", "POST"])
 def login():
-    return render_template("login.html")
+    blad = None
+    if request.method == "POST":
+        username = request.form.get("username")
+        password = request.form.get("password")
+        if sprawdz_uzytkownika(username, password):
+            session["user"] = username
+            return redirect(url_for("ranking"))
+        else:
+            blad = "Nieprawidłowy login lub hasło"
+    return render_template("login.html", blad=blad)
+
+@app.route("/logout")
+def logout():
+    session.pop("user", None)
+    return redirect(url_for("home"))
+
 
 
 # ▶️ Uruchomienie aplikacji
