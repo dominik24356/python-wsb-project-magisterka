@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}Trend cen mieszkań{% endblock %}
+
+{% block content %}
+<h2>📉 Trend cen 1m² mieszkań w województwie</h2>
+
+<form method="POST">
+    <label for="wojewodztwo">Województwo:</label>
+    <select name="wojewodztwo" id="wojewodztwo">
+        {% for woj in [
+            'Dolnośląskie','Kujawsko-pomorskie','Lubelskie','Lubuskie',
+            'Łódzkie','Małopolskie','Mazowieckie','Opolskie','Podkarpackie',
+            'Podlaskie','Pomorskie','Śląskie','Świętokrzyskie','Warmińsko-mazurskie',
+            'Wielkopolskie','Zachodniopomorskie'
+        ] %}
+            <option value="{{ woj }}" {% if woj == aktualne_woj %}selected{% endif %}>{{ woj }}</option>
+        {% endfor %}
+    </select>
+
+    <label for="od">Od:</label>
+    <select name="od" id="od">
+        {% for r in lata %}
+            <option value="{{ r }}" {% if r == request.form.get('od') %}selected{% endif %}>{{ r }}</option>
+        {% endfor %}
+    </select>
+
+    <label for="do">Do:</label>
+    <select name="do" id="do">
+        {% for r in lata %}
+            <option value="{{ r }}" {% if r == request.form.get('do') or r == lata[-1] %}selected{% endif %}>{{ r }}</option>
+        {% endfor %}
+    </select>
+
+    <button type="submit">Pokaż trend</button>
+</form>
+
+{% if blad %}
+    <p style="color: red; font-weight: bold;">{{ blad }}</p>
+{% endif %}
+
+{% if wykres %}
+    <br>
+    <h3>📊 Wykres zmian ceny 1m² mieszkań</h3>
+    <img src="data:image/png;base64,{{ wykres }}" alt="Wykres zmian cen">
+{% elif request.method == 'POST' %}
+    <p style="color: gray;">Brak danych do wyświetlenia w wybranym zakresie.</p>
+{% else %}
+    <p style="color: gray;">Wybierz województwo i zakres lat, aby zobaczyć trend cen.</p>
+{% endif %}
+{% endblock %}
