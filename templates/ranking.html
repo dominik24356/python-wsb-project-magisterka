@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Ranking{% endblock %}
+
+{% block content %}
+<h2>Ranking województw wg ceny 1m² mieszkań</h2>
+
+<form method="POST">
+    <label for="rok">Wybierz rok:</label>
+    <select name="rok" id="rok">
+        {% for r in lata %}
+            <option value="{{ r }}" {% if r == aktualny_rok %}selected{% endif %}>{{ r }}</option>
+        {% endfor %}
+    </select>
+    <button type="submit">Pokaż</button>
+</form>
+
+<br>
+<h3>Tabela danych</h3>
+{{ tabela.to_html(index=False) | safe }}
+
+<br><br>
+<h3>Wizualizacja – Top 10 województw wg ceny 1m²</h3>
+<img src="data:image/png;base64,{{ wykres }}" alt="Wykres słupkowy">
+
+{% endblock %}

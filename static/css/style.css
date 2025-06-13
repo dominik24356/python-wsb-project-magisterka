@@ -1,0 +1,84 @@
+/* style.css – globalny, prosty, nowoczesny */
+
+body {
+    font-family: "Segoe UI", sans-serif;
+    background-color: #f0f0f0;
+    color: #333;
+    margin: 0;
+    padding: 0 1rem;
+    max-width: 960px;
+    margin: auto;
+}
+
+nav {
+    background-color: #2c2c2c;
+    padding: 1rem;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+nav a {
+    color: #f0f0f0;
+    text-decoration: none;
+    margin: 0 15px;
+    font-weight: bold;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+h2, h3 {
+    color: #333;
+}
+
+form {
+    margin: 1.5rem 0;
+    padding: 1rem;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+select, button {
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    margin-left: 0.5rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+button {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    margin-bottom: 2rem;
+}
+
+th, td {
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    text-align: left;
+}
+
+th {
+    background-color: #e0e0e0;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 1rem auto;
+}

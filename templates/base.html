@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <title>{% block title %}Aplikacja GUS{% endblock %}</title>
+</head>
+<body>
+    <nav>
+        <a href="/">🏠 Strona główna</a>
+        <a href="/ranking">📋 Ranking</a>
+        <a href="/wykres">📈 Wykres</a>
+        <a href="/mapa">🗺️ Mapa</a>
+        <a href="/login">🔐 Login</a>        
+    </nav>
+    <hr>
+    {% block content %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,36 @@
+# Ignoruj środowisko wirtualne
+venv/
+ENV/
+env/
+.venv/
+
+# Ignoruj pliki systemowe i edytora
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.log
+*.sqlite3
+
+# Ignoruj pliki edytorów
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Ignoruj pliki systemowe
+.DS_Store
+Thumbs.db
+
+# Ignoruj dane generowane
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.svg
+
+# Ignoruj pliki konfiguracyjne lokalne
+*.env
+.env.*
+*.bak
+*.tmp
