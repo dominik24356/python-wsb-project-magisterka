@@ -3,24 +3,36 @@
 {% block title %}Ranking{% endblock %}
 
 {% block content %}
-<h2>Ranking województw wg ceny 1m² mieszkań</h2>
+    <section>
+        <h2 style="display: flex; align-items: center; gap: 0.5rem;">
+            🏆 Ranking województw wg ceny 1m² mieszkań
+        </h2>
+        <p style="margin-bottom: 1rem; color: #555;">
+            Porównaj województwa pod względem średniej ceny metra kwadratowego mieszkania
+            w wybranym roku. Dane pochodzą z <strong>API GUS</strong>.
+        </p>
 
-<form method="POST">
-    <label for="rok">Wybierz rok:</label>
-    <select name="rok" id="rok">
-        {% for r in lata %}
-            <option value="{{ r }}" {% if r == aktualny_rok %}selected{% endif %}>{{ r }}</option>
-        {% endfor %}
-    </select>
-    <button type="submit">Pokaż</button>
-</form>
+        <form method="POST">
+            <label for="rok"><strong>Wybierz rok:</strong></label>
+            <select name="rok" id="rok">
+                {% for r in lata %}
+                    <option value="{{ r }}" {% if r == aktualny_rok %}selected{% endif %}>{{ r }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit">🔍 Pokaż</button>
+        </form>
+    </section>
 
-<br>
-<h3>Tabela danych</h3>
-{{ tabela.to_html(index=False) | safe }}
+    <section>
+        <h3>📋 Tabela z danymi</h3>
+        <p style="color: #777;">Liczba województw: {{ tabela.shape[0] }}</p>
+        {{ tabela.to_html(index=False) | safe }}
+    </section>
 
-<br><br>
-<h3>Wizualizacja – Top 10 województw wg ceny 1m²</h3>
-<img src="data:image/png;base64,{{ wykres }}" alt="Wykres słupkowy">
-
+    <section>
+        <h3>📊 Wizualizacja – Top 10 województw wg ceny 1m²</h3>
+        <div style="background: white; padding: 1rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
+            <img src="data:image/png;base64,{{ wykres }}" alt="Wykres słupkowy">
+        </div>
+    </section>
 {% endblock %}

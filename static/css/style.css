@@ -82,3 +82,17 @@ img {
     display: block;
     margin: 1rem auto;
 }
+
+
+/* Hover na wierszach tabeli */
+table tbody tr:hover {
+    background-color: #f5faff;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+/* Zmiana koloru tekstu na hover */
+table tbody tr:hover td {
+    color: #000;
+    font-weight: 500;
+}

@@ -151,13 +151,6 @@ def ranking():
     wykres = generuj_wykres(df)
     return render_template("ranking.html", tabela=df, wykres=wykres, lata=LATA, aktualny_rok=wybrany_rok)
 
-
-# 📈 (Opcjonalny) placeholder pod inne wykresy
-@app.route('/wykres')
-def wykres():
-    return render_template("wykres.html")
-
-
 # 📉 Trend zmian cen 1m² w danym województwie
 @app.route("/trend", methods=["GET", "POST"])
 def trend():
